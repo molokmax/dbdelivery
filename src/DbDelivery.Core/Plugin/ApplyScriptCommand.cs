@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DbDelivery.Core {
+namespace DbDelivery.Core.Plugin {
 
     /// <summary>
     /// Command executes script on the database

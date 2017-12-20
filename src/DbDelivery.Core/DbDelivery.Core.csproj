@@ -31,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -40,12 +41,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BuildScriptCommand.cs" />
-    <Compile Include="CollectScriptsCommand.cs" />
-    <Compile Include="ApplyScriptCommand.cs" />
+    <Compile Include="Plugin\BuildScriptCommand.cs" />
+    <Compile Include="Plugin\InitDatabaseCommand.cs" />
+    <Compile Include="Plugin\CollectScriptsCommand.cs" />
+    <Compile Include="Plugin\ApplyScriptCommand.cs" />
+    <Compile Include="Config\ApplicationModel.cs" />
+    <Compile Include="Config\CommandModel.cs" />
+    <Compile Include="Config\CommandSettingModel.cs" />
+    <Compile Include="Config\ConfigManager.cs" />
+    <Compile Include="Config\ConfigModel.cs" />
+    <Compile Include="Config\EnvironmentModel.cs" />
     <Compile Include="IPluginFactory.cs" />
     <Compile Include="PluginFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SettingStore.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DbDelivery.Plugin\DbDelivery.Plugin.csproj">

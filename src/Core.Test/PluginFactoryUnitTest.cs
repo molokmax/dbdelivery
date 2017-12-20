@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DbDelivery.Core;
+using DbDelivery.Core.Plugin;
 using DbDelivery.Plugin;
 using System.Linq;
 

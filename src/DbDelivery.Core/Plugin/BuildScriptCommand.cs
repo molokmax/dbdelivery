@@ -5,12 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DbDelivery.Core {
+namespace DbDelivery.Core.Plugin {
 
-    public class CollectScriptsCommand : AbstructPluginCommand {
+    public class BuildScriptCommand : AbstructPluginCommand {
 
-        public CollectScriptsCommand(ISettingStore settings, IDataStore data) : base(settings, data) {
-            //PluginType = "CollectScripts";
+        public BuildScriptCommand(ISettingStore settings, IDataStore data) : base(settings, data) {
+            //PluginType = "BuildScript";
         }
 
         public override bool Execute() {
