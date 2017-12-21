@@ -43,7 +43,9 @@
   <ItemGroup>
     <Compile Include="CommandInvoker.cs" />
     <Compile Include="DataStore.cs" />
+    <Compile Include="DbDeliveryEngine.cs" />
     <Compile Include="ICommandInvoker.cs" />
+    <Compile Include="IDbDeliveryEngine.cs" />
     <Compile Include="Plugin\BuildScriptCommand.cs" />
     <Compile Include="Plugin\InitDatabaseCommand.cs" />
     <Compile Include="Plugin\CollectScriptsCommand.cs" />

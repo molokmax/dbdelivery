@@ -50,9 +50,10 @@
   <ItemGroup>
     <Compile Include="CommandInvokeUnitTest.cs" />
     <Compile Include="ConfigUnitTest.cs" />
+    <Compile Include="EngineUnitTest.cs" />
     <Compile Include="InitCommandUnitTest.cs" />
-    <Compile Include="CreateTestFileCommand.cs" />
-    <Compile Include="PluginBadName.cs" />
+    <Compile Include="Plugins\CreateTestFileCommand.cs" />
+    <Compile Include="Plugins\PluginBadName.cs" />
     <Compile Include="PluginFactoryUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -69,6 +70,11 @@
       <Project>{6d334fc7-ccfe-4977-8f2f-9b932f0d8fe2}</Project>
       <Name>DbDelivery.Plugin</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="test_config.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

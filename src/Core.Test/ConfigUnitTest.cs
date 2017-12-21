@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DbDelivery.Core.Config;
 using System.IO;
+using System.Linq;
 
 namespace Core.Test {
     /// <summary>
@@ -60,6 +61,72 @@ namespace Core.Test {
         [TestMethod]
         public void CreateTestConfigFile() {
 
+            try {
+                ConfigModel config = GetTestConfigModel();
+
+                ConfigManager configManager = new ConfigManager();
+                configManager.Save(config);
+
+                Assert.IsTrue(File.Exists("config.xml"));
+            } finally {
+                if (File.Exists("config.xml")) {
+                    File.Delete("config.xml");
+                }
+            }
+        }
+
+
+        [TestMethod]
+        public void LoadTestConfigFile() {
+            try {
+                MakeTestConfigFile();
+
+                ConfigManager configManager = new ConfigManager();
+                ConfigModel config = configManager.Load();
+
+                Assert.AreEqual(1, config.Applications.Count);
+                ApplicationModel app = config.Applications.First();
+                Assert.AreEqual("DbDelivery", app.Name);
+                Assert.AreEqual(1, app.Environments.Count);
+                EnvironmentModel env = app.Environments.First();
+                Assert.AreEqual("test", env.Name);
+                Assert.AreEqual(1, env.Commands.Count);
+                CommandModel cmd = env.Commands.First();
+                Assert.AreEqual("InitDatabase", cmd.PluginType);
+                Assert.AreEqual(2, cmd.Settings.Count);
+                CommandSettingModel providerName = cmd.Settings.FirstOrDefault(c => c.Name == "ProviderName");
+                Assert.IsNotNull(providerName);
+                Assert.IsFalse(String.IsNullOrEmpty(providerName.Value));
+                CommandSettingModel connString = cmd.Settings.FirstOrDefault(c => c.Name == "ConnectionString");
+                Assert.IsNotNull(connString);
+                Assert.IsFalse(String.IsNullOrEmpty(connString.Value));
+            } finally {
+                if (File.Exists("config.xml")) {
+                    File.Delete("config.xml");
+                }
+            }
+        }
+
+        [TestMethod]
+        public void GetEnvironmentConfigFile() {
+            ConfigModel config = GetTestConfigModel();
+            ConfigManager configManager = new ConfigManager();
+            EnvironmentModel env = configManager.GetEnvironmentConfig(config, "DbDelivery", "test");
+                
+            Assert.AreEqual("test", env.Name);
+            Assert.AreEqual(1, env.Commands.Count);
+            CommandModel cmd = env.Commands.First();
+            Assert.AreEqual("InitDatabase", cmd.PluginType);
+            Assert.AreEqual(2, cmd.Settings.Count);
+            CommandSettingModel providerName = cmd.Settings.FirstOrDefault(c => c.Name == "ProviderName");
+            Assert.IsNotNull(providerName);
+            Assert.IsFalse(String.IsNullOrEmpty(providerName.Value));
+            CommandSettingModel connString = cmd.Settings.FirstOrDefault(c => c.Name == "ConnectionString");
+            Assert.IsNotNull(connString);
+            Assert.IsFalse(String.IsNullOrEmpty(connString.Value));
+        }
+
+        private ConfigModel GetTestConfigModel() {
             ConfigModel config = new ConfigModel();
             config.Applications = new List<ApplicationModel>();
 
@@ -89,11 +156,12 @@ namespace Core.Test {
             app.Environments.Add(env);
             config.Applications.Add(app);
 
-            ConfigManager configManager = new ConfigManager();
-            configManager.Save(config);
-
-            Assert.IsTrue(File.Exists("config.xml"));
-
+            return config;
         }
+
+        private void MakeTestConfigFile() {
+            File.Copy("test_config.xml", "config.xml");
+        }
+
     }
 }
