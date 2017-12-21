@@ -14,7 +14,7 @@ namespace DbDelivery.Plugin {
         /// <summary>
         /// Type of plugin
         /// </summary>
-        //string PluginType { get; }
+        string PluginType { get; }
 
         /// <summary>
         /// Error message

@@ -44,6 +44,7 @@
     <Compile Include="IDataStore.cs" />
     <Compile Include="IPluginCommand.cs" />
     <Compile Include="ISettingStore.cs" />
+    <Compile Include="PluginNameFormatter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

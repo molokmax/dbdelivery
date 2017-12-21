@@ -15,9 +15,11 @@ namespace DbDelivery.Plugin {
         public AbstructPluginCommand(ISettingStore settings, IDataStore data) {
             this.Settings = settings;
             this.Data = data;
+            PluginNameFormatter pluginNameFormatter = new PluginNameFormatter();
+            PluginType = pluginNameFormatter.GetPluginName(this.GetType());
         }
 
-        //public string PluginType { get; protected set; }
+        public string PluginType { get; protected set; }
 
         public string Message { get; protected set; }
 

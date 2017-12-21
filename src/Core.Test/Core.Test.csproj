@@ -48,8 +48,10 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandInvokeUnitTest.cs" />
     <Compile Include="ConfigUnitTest.cs" />
     <Compile Include="InitCommandUnitTest.cs" />
+    <Compile Include="CreateTestFileCommand.cs" />
     <Compile Include="PluginBadName.cs" />
     <Compile Include="PluginFactoryUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

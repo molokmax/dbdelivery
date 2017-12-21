@@ -13,6 +13,11 @@ namespace DbDelivery.Core {
     public class PluginFactory : IPluginFactory {
 
         private IDictionary<string, Type> CommandTypes = new Dictionary<string, Type>();
+        private readonly PluginNameFormatter PluginNameFormatter = new PluginNameFormatter();
+
+        public PluginFactory() {
+            //PluginNameFormatter = new PluginNameFormatter();
+        }
 
         /// <summary>
         /// Create plugin-command instance for given type
@@ -31,16 +36,7 @@ namespace DbDelivery.Core {
             }
         }
 
-        /// <summary>
-        /// Get plugin name for the command
-        /// </summary>
-        /// <param name="commandType"></param>
-        /// <returns></returns>
-        private string GetPluginName(Type commandType) {
-            int commandSuffixIndex = commandType.Name.LastIndexOf("Command");
-            int pluginNameLength = commandSuffixIndex < 0 ? commandType.Name.Length : commandSuffixIndex;
-            return commandType.Name.Substring(0, pluginNameLength);
-        }
+        
 
         /// <summary>
         /// Register plugin-command type
@@ -51,7 +47,7 @@ namespace DbDelivery.Core {
             if (!basePluginType.IsAssignableFrom(commandType)) {
                 throw new Exception(String.Format("{0} is not IPluginCommand", commandType.Name));
             } else {
-                string pluginName = GetPluginName(commandType);
+                string pluginName = PluginNameFormatter.GetPluginName(commandType);
                 CommandTypes[pluginName] = commandType;
             }
         }
