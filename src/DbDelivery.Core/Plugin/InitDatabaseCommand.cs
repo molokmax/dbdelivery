@@ -16,19 +16,28 @@ namespace DbDelivery.Core.Plugin {
         public InitDatabaseCommand(ISettingStore settings, IDataStore data) : base(settings, data) {
             // sql command for initializing
             // TODO: move to resources
-            InitDatabaseCommandText = "CREATE TABLE DB_DELIVERY_HISTORY ( " + Environment.NewLine +
+            InitDatabaseCommandTemplate = "CREATE TABLE {0}DB_DELIVERY_HISTORY ( " + Environment.NewLine +
                 "[SCRIPT_NAME] [NVARCHAR](200) NOT NULL, " + Environment.NewLine +
                 "[APPLY_DATE] [DATETIME] NOT NULL " + Environment.NewLine +
                 ")";
         }
 
-        private readonly string InitDatabaseCommandText;
+        private readonly string InitDatabaseCommandTemplate;
+
+        private string GetInitDatabaseCommandText() {
+            string prefix = GetTablePrefix();
+            return String.Format(InitDatabaseCommandTemplate, prefix);
+        }
 
         private string GetProviderName() {
             return this.Settings.Get("ProviderName");
         }
         private string GetConnectionString() {
             return this.Settings.Get("ConnectionString");
+        }
+        private string GetTablePrefix() {
+            string tablePrefix = this.Settings.Get("TablePrefix", null);
+            return String.IsNullOrEmpty(tablePrefix) ? null : tablePrefix + "_";
         }
 
         private DbConnection GetConnection() {
@@ -44,7 +53,7 @@ namespace DbDelivery.Core.Plugin {
         public override bool Execute() {
             using (DbConnection connection = GetConnection()) {
                 using (DbCommand cmd = connection.CreateCommand()) {
-                    cmd.CommandText = InitDatabaseCommandText;
+                    cmd.CommandText = GetInitDatabaseCommandText();
                     cmd.ExecuteNonQuery();
                 }
             }

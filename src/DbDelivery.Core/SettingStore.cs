@@ -26,6 +26,7 @@ namespace DbDelivery.Core {
 
         /// <summary>
         /// Get setting value by setting name
+        /// throw exception if key nod found
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
@@ -38,6 +39,24 @@ namespace DbDelivery.Core {
                 return result;
             } else {
                 throw new ApplicationException(String.Format("Setting '{0}' not found", key));
+            }
+        }
+
+        /// <summary>
+        /// Get setting value by setting name
+        /// return default value if key nod found
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public string Get(string key, string defaulValue) {
+            if (String.IsNullOrEmpty(key)) {
+                throw new ArgumentNullException("key");
+            }
+            string result;
+            if (store.TryGetValue(key, out result)) {
+                return result;
+            } else {
+                return defaulValue;
             }
         }
     }

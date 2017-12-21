@@ -63,15 +63,20 @@ namespace Core.Test {
         public void InitDatabase() {
             CommandModel config = new CommandModel();
             config.PluginType = "InitDatabase";
-            config.Settings = new List<CommandSettingModel>();
-            config.Settings.Add(new CommandSettingModel() {
-                Name = "ProviderName",
-                Value = "System.Data.SqlClient"
-            });
-            config.Settings.Add(new CommandSettingModel() {
-                Name = "ConnectionString",
-                Value = "Data Source=192.168.10.33;Initial Catalog=DbDelivery_Test;Persist Security Info=True;User ID=userdb;Password=qwerty1"
-            });
+            config.Settings = new List<CommandSettingModel>() {
+                new CommandSettingModel() {
+                    Name = "ProviderName",
+                    Value = "System.Data.SqlClient"
+                },
+                new CommandSettingModel() {
+                    Name = "ConnectionString",
+                    Value = "Data Source=192.168.10.33;Initial Catalog=DbDelivery_Test;Persist Security Info=True;User ID=userdb;Password=qwerty1"
+                },
+                new CommandSettingModel() {
+                    Name = "TablePrefix",
+                    Value = "TEST_" + DateTime.Now.ToString("yyyyMMddHHmmss")
+                }
+            };
             ISettingStore settings = new SettingStore(config);
             IPluginCommand cmd = new InitDatabaseCommand(settings, null);
             bool res = cmd.Execute();
