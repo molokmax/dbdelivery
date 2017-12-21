@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -44,8 +48,10 @@
     <Compile Include="CommandInvoker.cs" />
     <Compile Include="DataStore.cs" />
     <Compile Include="DbDeliveryEngine.cs" />
+    <Compile Include="DbDeliveryModule.cs" />
     <Compile Include="ICommandInvoker.cs" />
     <Compile Include="IDbDeliveryEngine.cs" />
+    <Compile Include="IoC.cs" />
     <Compile Include="Plugin\BuildScriptCommand.cs" />
     <Compile Include="Plugin\InitDatabaseCommand.cs" />
     <Compile Include="Plugin\CollectScriptsCommand.cs" />
@@ -66,6 +72,9 @@
       <Project>{6d334fc7-ccfe-4977-8f2f-9b932f0d8fe2}</Project>
       <Name>DbDelivery.Plugin</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

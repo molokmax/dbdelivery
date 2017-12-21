@@ -18,12 +18,12 @@ namespace DbDelivery.Core {
         private readonly ConfigManager ConfigManager;
 
         private readonly IPluginFactory PluginFactory;
-        //[ImportMany(typeof(IPluginCommand))]
-        //public IEnumerable<IPluginCommand> Plugins { get; set; }
+        private readonly ICommandInvoker CommandInvoker;
 
-        public DbDeliveryEngine(IPluginFactory factory) {
+        public DbDeliveryEngine(IPluginFactory factory, ICommandInvoker invoker) {
             this.ConfigManager = new ConfigManager();
             this.PluginFactory = factory;
+            this.CommandInvoker = invoker;
         }
 
         /// <summary>
@@ -46,7 +46,6 @@ namespace DbDelivery.Core {
                 .SelectMany(asm => asm
                     .GetTypes()
                     .Where(t => !t.IsInterface && !t.IsAbstract && pluginCommandInterfaceType.IsAssignableFrom(t)));
-            //IEnumerable<Type> plugins = asm.GetTypes().Where(t => t.IsAssignableFrom(typeof(IPluginCommand)));
             foreach (Type pluginType in plugins) {
                 this.PluginFactory.RegisterCommand(pluginType);
             }
@@ -58,7 +57,9 @@ namespace DbDelivery.Core {
         /// <param name="applicationName"></param>
         /// <param name="environmentName"></param>
         public void Migrate(string applicationName, string environmentName) {
-
+            ConfigModel config = this.ConfigManager.Load();
+            EnvironmentModel envModel = this.ConfigManager.GetEnvironmentConfig(config, applicationName, environmentName);
+            this.CommandInvoker.Invoke(envModel);
         }
     }
 }
