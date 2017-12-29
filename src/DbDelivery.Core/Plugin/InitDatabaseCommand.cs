@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,18 +16,38 @@ namespace DbDelivery.Core.Plugin {
 
         public InitDatabaseCommand(ISettingStore settings, IDataStore data) : base(settings, data) {
             // sql command for initializing
-            // TODO: move to resources
-            InitDatabaseCommandTemplate = "CREATE TABLE {0}DB_DELIVERY_HISTORY ( " + Environment.NewLine +
-                "[SCRIPT_NAME] [NVARCHAR](200) NOT NULL, " + Environment.NewLine +
-                "[APPLY_DATE] [DATETIME] NOT NULL " + Environment.NewLine +
-                ")";
+        }
+        
+        public override bool Execute() {
+            using (DbConnection connection = GetConnection()) {
+                using (DbCommand cmd = connection.CreateCommand()) {
+                    const string initScriptFileName = "initialize.sql";
+                    string initScriptPath = Path.Combine("SqlCommandResources", initScriptFileName);
+                    if (!File.Exists(initScriptPath)) {
+                        throw new ApplicationException(String.Format("Init script '{0}' is not found", initScriptPath));
+                    }
+                    string initScript = File.ReadAllText(initScriptPath);
+                    cmd.CommandText = String.Format(initScript, GetMigrationTableName());
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            return true;
         }
 
-        private readonly string InitDatabaseCommandTemplate;
 
-        private string GetInitDatabaseCommandText() {
+        private DbConnection GetConnection() {
+            string providerName = GetProviderName();
+            string connectionString = GetConnectionString();
+            DbProviderFactory factory = DbProviderFactories.GetFactory(providerName);
+            DbConnection connection = factory.CreateConnection();
+            connection.ConnectionString = connectionString;
+            connection.Open();
+            return connection;
+        }
+
+        private string GetMigrationTableName() {
             string prefix = GetTablePrefix();
-            return String.Format(InitDatabaseCommandTemplate, prefix);
+            return String.Format("{0}DB_DELIVERY_HISTORY", prefix);
         }
 
         private string GetProviderName() {
@@ -40,24 +61,5 @@ namespace DbDelivery.Core.Plugin {
             return String.IsNullOrEmpty(tablePrefix) ? null : tablePrefix + "_";
         }
 
-        private DbConnection GetConnection() {
-            string providerName = GetProviderName();
-            string connectionString = GetConnectionString();
-            DbProviderFactory factory = DbProviderFactories.GetFactory(providerName);
-            DbConnection connection = factory.CreateConnection();
-            connection.ConnectionString = connectionString;
-            connection.Open();
-            return connection;
-        }
-
-        public override bool Execute() {
-            using (DbConnection connection = GetConnection()) {
-                using (DbCommand cmd = connection.CreateCommand()) {
-                    cmd.CommandText = GetInitDatabaseCommandText();
-                    cmd.ExecuteNonQuery();
-                }
-            }
-            return true;
-        }
     }
 }
