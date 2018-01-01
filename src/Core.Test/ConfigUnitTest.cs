@@ -5,6 +5,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DbDelivery.Core.Config;
 using System.IO;
 using System.Linq;
+using DbDelivery.Plugin;
+using DbDelivery.Core;
 
 namespace Core.Test {
     /// <summary>
@@ -107,12 +109,48 @@ namespace Core.Test {
             }
         }
 
+
+        [TestMethod]
+        public void LoadTestConfigBaseSettingsFile() {
+            try {
+                MakeTestConfigBaseSettingsFile();
+
+                ConfigManager configManager = new ConfigManager();
+                ConfigModel config = configManager.Load();
+
+                Assert.AreEqual(1, config.Applications.Count);
+                ApplicationModel app = config.Applications.First();
+                Assert.AreEqual("DbDelivery", app.Name);
+                Assert.AreEqual(1, app.Environments.Count);
+                EnvironmentModel env = app.Environments.First();
+                Assert.AreEqual("test", env.Name);
+
+                Assert.AreEqual(1, env.BaseSettings.Count);
+                CommandSettingModel baseSetting = env.BaseSettings.First();
+                Assert.IsNotNull(baseSetting);
+                Assert.IsFalse(String.IsNullOrEmpty(baseSetting.Value));
+                
+                Assert.AreEqual(1, env.Commands.Count);
+                CommandModel cmd = env.Commands.First();
+                Assert.AreEqual("CreateTestFile", cmd.PluginType);
+                Assert.AreEqual(1, cmd.Settings.Count);
+                CommandSettingModel fileName = cmd.Settings.FirstOrDefault(c => c.Name == "FileName");
+                Assert.IsNotNull(fileName);
+                Assert.IsFalse(String.IsNullOrEmpty(fileName.Value));
+            } finally {
+                if (File.Exists("config.xml")) {
+                    File.Delete("config.xml");
+                }
+            }
+        }
+
+
         [TestMethod]
         public void GetEnvironmentConfigFile() {
             ConfigModel config = GetTestConfigModel();
             ConfigManager configManager = new ConfigManager();
             EnvironmentModel env = configManager.GetEnvironmentConfig(config, "DbDelivery", "test");
-                
+
             Assert.AreEqual("test", env.Name);
             Assert.AreEqual(1, env.Commands.Count);
             CommandModel cmd = env.Commands.First();
@@ -124,6 +162,57 @@ namespace Core.Test {
             CommandSettingModel connString = cmd.Settings.FirstOrDefault(c => c.Name == "ConnectionString");
             Assert.IsNotNull(connString);
             Assert.IsFalse(String.IsNullOrEmpty(connString.Value));
+        }
+
+        [TestMethod]
+        public void SettingStoreBaseSetting() {
+            CommandModel cmdConfig;
+            ConfigModel config = GetTestConfigBaseSettingModel(out cmdConfig);
+            ConfigManager configManager = new ConfigManager();
+            EnvironmentModel env = configManager.GetEnvironmentConfig(config, "DbDelivery", "test");
+
+            ISettingStore store = new SettingStore(cmdConfig, env);
+            string providerName = store.Get("ProviderName");
+            Assert.AreEqual("System.Data.SqlClient", providerName);
+
+            string connectionString = store.Get("ConnectionString");
+            Assert.AreEqual("Data Source=192.168.10.33;Initial Catalog=DbDelivery_Test;Persist Security Info=True;User ID=userdb;Password=qwerty1", connectionString);
+            
+        }
+
+
+        private ConfigModel GetTestConfigBaseSettingModel(out CommandModel cmdConfig) {
+            ConfigModel config = new ConfigModel();
+            config.Applications = new List<ApplicationModel>();
+
+            ApplicationModel app = new ApplicationModel();
+            app.Name = "DbDelivery";
+            app.Environments = new List<EnvironmentModel>();
+
+            EnvironmentModel env = new EnvironmentModel();
+            env.Name = "test";
+            env.Commands = new List<CommandModel>();
+
+            env.BaseSettings = new List<CommandSettingModel>();
+            CommandSettingModel providerName = new CommandSettingModel();
+            providerName.Name = "ProviderName";
+            providerName.Value = "System.Data.SqlClient";
+            env.BaseSettings.Add(providerName);
+
+            cmdConfig = new CommandModel();
+            cmdConfig.PluginType = "InitDatabase";
+            cmdConfig.Settings = new List<CommandSettingModel>();
+
+            CommandSettingModel connString = new CommandSettingModel();
+            connString.Name = "ConnectionString";
+            connString.Value = "Data Source=192.168.10.33;Initial Catalog=DbDelivery_Test;Persist Security Info=True;User ID=userdb;Password=qwerty1";
+            cmdConfig.Settings.Add(connString);
+            
+            env.Commands.Add(cmdConfig);
+            app.Environments.Add(env);
+            config.Applications.Add(app);
+
+            return config;
         }
 
         private ConfigModel GetTestConfigModel() {
@@ -163,5 +252,8 @@ namespace Core.Test {
             File.Copy("test_config.xml", "config.xml");
         }
 
+        private void MakeTestConfigBaseSettingsFile() {
+            File.Copy("test_config3.xml", "config.xml");
+        }
     }
 }

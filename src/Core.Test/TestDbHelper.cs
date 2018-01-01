@@ -3,6 +3,7 @@ using DbDelivery.Core.Config;
 using DbDelivery.Plugin;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,7 +24,7 @@ namespace Core.Test {
                     Value = connectionString
                 }
             };
-            ISettingStore settings = new SettingStore(config);
+            ISettingStore settings = new SettingStore(config, null);
             IDataStore data = new DataStore();
             IPluginCommand cmd = new CleanTestDatabaseCommand(settings, data);
             cmd.Execute();
@@ -50,10 +51,19 @@ namespace Core.Test {
                     Value = fillHistory
                 }
             };
-            ISettingStore settings = new SettingStore(config);
+            ISettingStore settings = new SettingStore(config, null);
             IDataStore data = new DataStore();
             IPluginCommand cmd = new InitTestDatabaseCommand(settings, data);
             bool res = cmd.Execute();
+        }
+
+
+        public static DbConnection GetConnection(string providerName, string connectionString) {
+            DbProviderFactory factory = DbProviderFactories.GetFactory(providerName);
+            DbConnection connection = factory.CreateConnection();
+            connection.ConnectionString = connectionString;
+            connection.Open();
+            return connection;
         }
     }
 }

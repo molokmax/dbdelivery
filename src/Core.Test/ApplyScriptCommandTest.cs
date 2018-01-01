@@ -30,7 +30,7 @@ namespace Core.Test {
         [TestMethod]
         public void ApplyScripts() {
             CommandModel config = new CommandModel();
-            config.PluginType = "BuildScript";
+            config.PluginType = "ApplyScript";
             config.Settings = new List<CommandSettingModel>() {
                 new CommandSettingModel() {
                     Name = "ProviderName",
@@ -45,7 +45,7 @@ namespace Core.Test {
                     Value = "TEST_BUILD"
                 }
             };
-            ISettingStore settings = new SettingStore(config);
+            ISettingStore settings = new SettingStore(config, null);
             IDataStore data = new DataStore();
             List<string> scripts = new List<string>() {
                 "src1/sql/script2.sql",
@@ -54,9 +54,12 @@ namespace Core.Test {
             data.SetValue<List<string>>("ScriptsToApply", scripts);
             IPluginCommand cmd = new ApplyScriptCommand(settings, data);
             bool res = cmd.Execute();
+
+
+
             Assert.IsTrue(res);
 
-            using (DbConnection connection = GetConnection()) {
+            using (DbConnection connection = TestDbHelper.GetConnection(ProviderName, ConnectionString)) {
                 using (DbCommand sqlCmd = connection.CreateCommand()) {
                     sqlCmd.CommandText = "select count(*) from TEST_BUILD_DB_DELIVERY_HISTORY";
                     int count = (int) sqlCmd.ExecuteScalar();
@@ -72,12 +75,5 @@ namespace Core.Test {
         }
 
 
-        protected virtual DbConnection GetConnection() {
-            DbProviderFactory factory = DbProviderFactories.GetFactory(ProviderName);
-            DbConnection connection = factory.CreateConnection();
-            connection.ConnectionString = ConnectionString;
-            connection.Open();
-            return connection;
-        }
     }
 }

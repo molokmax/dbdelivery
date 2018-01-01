@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ConfigModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Applications>
+    <ApplicationModel>
+      <Name>DbDelivery</Name>
+      <Environments>
+        <EnvironmentModel>
+          <Name>test</Name>
+          <BaseSettings>
+            <CommandSettingModel>
+              <Name>TestData</Name>
+              <Value>TEST_MESSAGE_2</Value>
+            </CommandSettingModel>
+          </BaseSettings>
+          <Commands>
+            <CommandModel>
+              <PluginType>CreateTestFile</PluginType>
+              <Settings>
+                <CommandSettingModel>
+                  <Name>FileName</Name>
+                  <Value>test_file2.txt</Value>
+                </CommandSettingModel>
+              </Settings>
+            </CommandModel>
+          </Commands>
+        </EnvironmentModel>
+      </Environments>
+    </ApplicationModel>
+  </Applications>
+</ConfigModel>

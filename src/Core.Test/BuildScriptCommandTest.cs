@@ -43,7 +43,7 @@ namespace Core.Test {
                     Value = "TEST_BUILD"
                 }
             };
-            ISettingStore settings = new SettingStore(config);
+            ISettingStore settings = new SettingStore(config, null);
             IDataStore data = new DataStore();
             IPluginCommand cmd = new BuildScriptCommand(settings, data);
             bool res = cmd.Execute();

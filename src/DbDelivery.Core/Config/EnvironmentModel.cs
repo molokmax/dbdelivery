@@ -16,6 +16,8 @@ namespace DbDelivery.Core.Config {
         /// </summary>
         public string Name { get; set; }
 
+        public List<CommandSettingModel> BaseSettings { get; set; }
+
         /// <summary>
         /// List of commands
         /// </summary>

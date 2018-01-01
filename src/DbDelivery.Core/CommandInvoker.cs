@@ -42,7 +42,7 @@ namespace DbDelivery.Core {
             IList<IPluginCommand> result = new List<IPluginCommand>();
             IDataStore data = new DataStore();
             foreach (CommandModel cmd in config.Commands) {
-                ISettingStore settings = new SettingStore(cmd);
+                ISettingStore settings = new SettingStore(cmd, config);
                 IPluginCommand plugin = PluginFactory.CreateCommand(cmd.PluginType, settings, data);
                 result.Add(plugin);
             }

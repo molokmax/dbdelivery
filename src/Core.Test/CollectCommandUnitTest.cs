@@ -83,7 +83,7 @@ namespace Core.Test {
                     Value = "module.*;module.*"
                 }
             };
-            ISettingStore settings = new SettingStore(config);
+            ISettingStore settings = new SettingStore(config, null);
             IPluginCommand cmd = new CollectScriptsCommand(settings, null);
             bool res = cmd.Execute();
             Assert.IsTrue(res);
@@ -125,7 +125,7 @@ namespace Core.Test {
                     Value = "module.*;module.*"
                 }
             };
-            ISettingStore settings = new SettingStore(config);
+            ISettingStore settings = new SettingStore(config, null);
             IPluginCommand cmd = new CollectScriptsCommand(settings, null);
             bool res = cmd.Execute();
             Assert.IsTrue(res);

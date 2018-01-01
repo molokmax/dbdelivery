@@ -18,7 +18,12 @@ namespace DbDelivery.Core {
         /// <summary>
         /// Create storage from config
         /// </summary>
-        public SettingStore(CommandModel config) {
+        public SettingStore(CommandModel config, EnvironmentModel envConfig) {
+            if (envConfig != null && envConfig.BaseSettings != null) {
+                foreach (CommandSettingModel cfg in envConfig.BaseSettings) {
+                    store[cfg.Name] = cfg.Value;
+                }
+            }
             foreach (CommandSettingModel cfg in config.Settings) {
                 store[cfg.Name] = cfg.Value;
             }
