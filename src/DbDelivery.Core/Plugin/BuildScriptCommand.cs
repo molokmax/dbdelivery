@@ -28,7 +28,8 @@ namespace DbDelivery.Core.Plugin {
             ISet<string> appliedScriptNames = new HashSet<string>(appliedScripts.Select(s => s.ScriptName));
             IEnumerable<string> notAppliedScripts = files
                 .Where(f => !appliedScriptNames.Contains(f.Name))
-                .Select(f => f.Name);
+                .Select(f => f.FullName)
+                .OrderBy(f => f);
             // save list of not applied scripts to use it in other command
             Data.SetValue<List<string>>("ScriptsToApply", notAppliedScripts.ToList());
             return true;

@@ -50,17 +50,20 @@
     <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplyScriptCommandTest.cs" />
     <Compile Include="CommandInvokeUnitTest.cs" />
     <Compile Include="ConfigUnitTest.cs" />
     <Compile Include="EngineUnitTest.cs" />
     <Compile Include="CollectCommandUnitTest.cs" />
     <Compile Include="InitCommandUnitTest.cs" />
     <Compile Include="Plugins\CreateTestFileCommand.cs" />
+    <Compile Include="Plugins\CleanTestDatabaseCommand.cs" />
     <Compile Include="Plugins\InitTestDatabaseCommand.cs" />
     <Compile Include="Plugins\PluginBadName.cs" />
     <Compile Include="PluginFactoryUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BuildScriptCommandTest.cs" />
+    <Compile Include="TestDbHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

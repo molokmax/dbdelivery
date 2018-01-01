@@ -13,30 +13,11 @@ namespace Core.Test {
 
         private const string ConnectionString = "Data Source=127.0.0.1,1401;Initial Catalog=DbDelivery_Test;Persist Security Info=True;User ID=sa;Password=Password123!#*";
 
+        private const string ProviderName = "System.Data.SqlClient";
+
         [ClassInitialize()]
         public static void MyClassInitialize(TestContext testContext) {
-            CommandModel config = new CommandModel();
-            config.PluginType = "InitTestDatabase";
-            config.Settings = new List<CommandSettingModel>() {
-                new CommandSettingModel() {
-                    Name = "ProviderName",
-                    Value = "System.Data.SqlClient"
-                },
-                new CommandSettingModel() {
-                    Name = "ConnectionString",
-                    Value = ConnectionString
-                },
-                new CommandSettingModel() {
-                    Name = "TablePrefix",
-                    Value = "TEST_BUILD"
-                }
-            };
-            ISettingStore settings = new SettingStore(config);
-            IDataStore data = new DataStore();
-            IPluginCommand cmd = new InitTestDatabaseCommand(settings, data);
-            bool res = cmd.Execute();
-
-
+            TestDbHelper.Init(ProviderName, ConnectionString);
 
         }
 
@@ -51,7 +32,7 @@ namespace Core.Test {
                 },
                 new CommandSettingModel() {
                     Name = "ProviderName",
-                    Value = "System.Data.SqlClient"
+                    Value = ProviderName
                 },
                 new CommandSettingModel() {
                     Name = "ConnectionString",
@@ -71,8 +52,8 @@ namespace Core.Test {
             List<string> scripts = data.GetValue<List<string>>("ScriptsToApply");
             Assert.AreEqual(2, scripts.Count);
             
-            Assert.IsTrue(scripts.Contains("script2.sql"));
-            Assert.IsTrue(scripts.Contains("script3.sql"));
+            Assert.IsTrue(scripts[0].EndsWith("script2.sql"));
+            Assert.IsTrue(scripts[1].EndsWith("script3.sql"));
 
         }
     }
