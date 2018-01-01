@@ -12,7 +12,7 @@ namespace DbDelivery.Core.Plugin {
     /// <summary>
     /// Initializing database for db deliveries
     /// </summary>
-    public class InitDatabaseCommand : AbstructPluginCommand {
+    public class InitDatabaseCommand : AbstractDatabasePluginCommand {
 
         public InitDatabaseCommand(ISettingStore settings, IDataStore data) : base(settings, data) {
             // sql command for initializing
@@ -34,32 +34,6 @@ namespace DbDelivery.Core.Plugin {
             return true;
         }
 
-
-        private DbConnection GetConnection() {
-            string providerName = GetProviderName();
-            string connectionString = GetConnectionString();
-            DbProviderFactory factory = DbProviderFactories.GetFactory(providerName);
-            DbConnection connection = factory.CreateConnection();
-            connection.ConnectionString = connectionString;
-            connection.Open();
-            return connection;
-        }
-
-        private string GetMigrationTableName() {
-            string prefix = GetTablePrefix();
-            return String.Format("{0}DB_DELIVERY_HISTORY", prefix);
-        }
-
-        private string GetProviderName() {
-            return this.Settings.Get("ProviderName");
-        }
-        private string GetConnectionString() {
-            return this.Settings.Get("ConnectionString");
-        }
-        private string GetTablePrefix() {
-            string tablePrefix = this.Settings.Get("TablePrefix", null);
-            return String.IsNullOrEmpty(tablePrefix) ? null : tablePrefix + "_";
-        }
 
     }
 }

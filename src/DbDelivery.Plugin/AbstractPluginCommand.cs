@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace DbDelivery.Plugin {
 
-    public abstract class AbstructPluginCommand : IPluginCommand {
+    public abstract class AbstractPluginCommand : IPluginCommand {
 
         protected readonly ISettingStore Settings;
 
         protected readonly IDataStore Data;
 
-        public AbstructPluginCommand(ISettingStore settings, IDataStore data) {
+        public AbstractPluginCommand(ISettingStore settings, IDataStore data) {
             this.Settings = settings;
             this.Data = data;
             PluginNameFormatter pluginNameFormatter = new PluginNameFormatter();

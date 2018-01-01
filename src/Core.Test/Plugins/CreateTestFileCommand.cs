@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Core.Test {
-    public class CreateTestFileCommand : AbstructPluginCommand {
+    public class CreateTestFileCommand : AbstractPluginCommand {
 
         public CreateTestFileCommand(ISettingStore settings, IDataStore data) : base(settings, data) {
         }

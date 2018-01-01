@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Core.Test {
-    public class PluginBadName : AbstructPluginCommand {
+    public class PluginBadName : AbstractPluginCommand {
 
         public PluginBadName(ISettingStore settings, IDataStore data) : base(settings, data) {
         }

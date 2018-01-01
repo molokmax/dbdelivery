@@ -13,6 +13,9 @@ namespace Core.Test {
     /// </summary>
     [TestClass]
     public class InitCommandUnitTest {
+
+        private const string ConnectionString = "Data Source=127.0.0.1,1401;Initial Catalog=DbDelivery_Test;Persist Security Info=True;User ID=sa;Password=Password123!#*";
+
         public InitCommandUnitTest() {
             //
             // TODO: Add constructor logic here
@@ -70,7 +73,7 @@ namespace Core.Test {
                 },
                 new CommandSettingModel() {
                     Name = "ConnectionString",
-                    Value = "Data Source=192.168.10.33;Initial Catalog=DbDelivery_Test;Persist Security Info=True;User ID=userdb;Password=qwerty1"
+                    Value = ConnectionString
                 },
                 new CommandSettingModel() {
                     Name = "TablePrefix",

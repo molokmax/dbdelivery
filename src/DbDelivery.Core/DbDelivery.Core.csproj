@@ -64,6 +64,7 @@
     <Compile Include="Config\EnvironmentModel.cs" />
     <Compile Include="IPluginFactory.cs" />
     <Compile Include="PluginFactory.cs" />
+    <Compile Include="Plugin\Model\MigrationScriptModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SettingStore.cs" />
   </ItemGroup>
@@ -77,6 +78,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="SqlCommandResources\getapplied.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="SqlCommandResources\initialize.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

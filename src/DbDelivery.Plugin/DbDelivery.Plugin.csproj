@@ -40,7 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AbstructPluginCommand.cs" />
+    <Compile Include="AbstractDatabasePluginCommand.cs" />
+    <Compile Include="AbstractPluginCommand.cs" />
     <Compile Include="IDataStore.cs" />
     <Compile Include="IPluginCommand.cs" />
     <Compile Include="ISettingStore.cs" />

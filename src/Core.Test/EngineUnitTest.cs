@@ -69,7 +69,7 @@ namespace Core.Test {
             IPluginFactory factory = new PluginFactory();
             IDbDeliveryEngine engine = new DbDeliveryEngine(factory, null);
             engine.Init();
-            Assert.AreEqual(6, factory.AvailablePlugins.Count());
+            Assert.AreEqual(7, factory.AvailablePlugins.Count());
         }
 
         [TestMethod]

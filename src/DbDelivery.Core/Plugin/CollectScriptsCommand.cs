@@ -9,7 +9,10 @@ using System.Threading.Tasks;
 
 namespace DbDelivery.Core.Plugin {
 
-    public class CollectScriptsCommand : AbstructPluginCommand {
+    /// <summary>
+    /// collect all scripts from a project
+    /// </summary>
+    public class CollectScriptsCommand : AbstractPluginCommand {
 
         public CollectScriptsCommand(ISettingStore settings, IDataStore data) : base(settings, data) {
             //PluginType = "CollectScripts";
