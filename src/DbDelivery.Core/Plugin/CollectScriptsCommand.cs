@@ -27,7 +27,7 @@ namespace DbDelivery.Core.Plugin {
                 IEnumerable<string> scripts = Directory.EnumerateFiles(sourcePath, "*.sql", SearchOption.TopDirectoryOnly);
                 foreach (string file in scripts) {
                     string fileName = Path.GetFileName(file);
-                    File.Copy(file, Path.Combine(tempDir, fileName));
+                    File.Copy(file, Path.Combine(tempDir, fileName), true);
                 }
             }
             return true;
