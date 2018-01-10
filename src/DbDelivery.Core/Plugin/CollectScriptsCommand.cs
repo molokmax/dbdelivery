@@ -38,10 +38,11 @@ namespace DbDelivery.Core.Plugin {
             DirectoryInfo dir = new DirectoryInfo(path);
             if (dir.Exists) {
                 foreach (FileInfo file in dir.GetFiles()) {
+                    File.SetAttributes(file.FullName, FileAttributes.Normal);
                     file.Delete();
                 }
                 foreach (DirectoryInfo item in dir.GetDirectories()) {
-                    dir.Delete(true);
+                    item.Delete(true);
                 }
             } else {
                 dir.Create();
@@ -64,7 +65,7 @@ namespace DbDelivery.Core.Plugin {
                 .ToList();
             foreach (string sourcePath in sourceSettingArray) {
                 IEnumerable<string> dirs = Directory.EnumerateDirectories(rootDir, sourcePath, SearchOption.AllDirectories);
-                result.AddRange(dirs.Select(d => Path.Combine(d, leafDir)));
+                result.AddRange(dirs.Select(d => Path.Combine(d, leafDir)).Where(d => Directory.Exists(d)));
             }
             return result.Distinct();
         }
