@@ -47,12 +47,22 @@ namespace DbDelivery.Core.Plugin {
             if (!Directory.Exists(actualScriptPath)) {
                 Directory.CreateDirectory(actualScriptPath);
             }
-            File.WriteAllText(actualScriptFile, "-- Not Applied Scripts:" + Environment.NewLine);
+            File.WriteAllText(actualScriptFile, "--=============== Not Applied Scripts: ===============" + Environment.NewLine + Environment.NewLine);
             File.AppendAllText(actualScriptFile, "-- " + String.Join(Environment.NewLine + "-- ", notAppliedScripts) + Environment.NewLine + Environment.NewLine);
+
+            File.AppendAllText(actualScriptFile, "--=============== Insert History Scripts: ===============" + Environment.NewLine + Environment.NewLine);
+            string tableName = GetMigrationTableName();
+            string historyScript = "-- " + String.Join(Environment.NewLine + "-- ", notAppliedScripts.Select(s => FormatHistoryScript(tableName, s)));
+            File.AppendAllText(actualScriptFile, historyScript + Environment.NewLine + Environment.NewLine);
+
+            string headerSriptLine = Environment.NewLine + Environment.NewLine + "--=============== {0} '{1}' =======================" + Environment.NewLine + Environment.NewLine;
+
             foreach (string item in notAppliedScripts) {
-                File.AppendAllText(actualScriptFile, Environment.NewLine + Environment.NewLine + Environment.NewLine + "-- " + item + Environment.NewLine + Environment.NewLine);
+                string filename = Path.GetFileName(item);
+                File.AppendAllText(actualScriptFile, Environment.NewLine + String.Format(headerSriptLine, "BEGIN SCRIPT", filename));
                 string content = File.ReadAllText(item);
                 File.AppendAllText(actualScriptFile, content);
+                File.AppendAllText(actualScriptFile, String.Format(headerSriptLine, "END SCRIPT", filename));
             }
         }
 
@@ -65,6 +75,15 @@ namespace DbDelivery.Core.Plugin {
             } else {
                 throw new ApplicationException(String.Format("Temp script folder '{0}' is not found", path));
             }
+        }
+
+        private string FormatHistoryScript(string tableName, string scriptFile) {
+            return String.Format("INSERT INTO {0} (SCRIPT_NAME, APPLY_DATE) VALUES ('{1}', '{2:yyyy-MM-dd HH:mm:ss}');", tableName, GetScriptName(scriptFile), DateTime.Now);
+        }
+
+        private string GetScriptName(string filePath) {
+            return Path.GetFileName(filePath)
+                .Replace("\'", "\'\'");
         }
 
         private List<MigrationScriptModel> GetAppliedScripts() {
