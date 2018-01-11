@@ -78,7 +78,7 @@ namespace DbDelivery.Core.Plugin {
         }
 
         private string FormatHistoryScript(string tableName, string scriptFile) {
-            return String.Format("INSERT INTO {0} (SCRIPT_NAME, APPLY_DATE) VALUES ('{1}', '{2:yyyy-MM-dd HH:mm:ss}');", tableName, GetScriptName(scriptFile), DateTime.Now);
+            return String.Format("INSERT INTO {0} (SCRIPT_NAME, APPLY_DATE) VALUES (N'{1}', '{2:yyyy-MM-dd HH:mm:ss}');", tableName, GetScriptName(scriptFile), DateTime.Now);
         }
 
         private string GetScriptName(string filePath) {

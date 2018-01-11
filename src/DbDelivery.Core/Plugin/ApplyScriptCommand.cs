@@ -34,7 +34,7 @@ namespace DbDelivery.Core.Plugin {
                                 cmd.CommandText = commandText;
                                 cmd.ExecuteNonQuery();
 
-                                string historyCmd = String.Format("('{0}', '{1:yyyy-MM-dd HH:mm:ss}')", GetScriptName(scriptPath), DateTime.Now);
+                                string historyCmd = String.Format("(N'{0}', '{1:yyyy-MM-dd HH:mm:ss}')", GetScriptName(scriptPath), DateTime.Now);
                                 historyScript.Add(historyCmd);
                             }
 
