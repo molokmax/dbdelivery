@@ -26,6 +26,15 @@
           </BaseSettings>
           <Commands>
             <CommandModel>
+              <PluginType>MakeBackup</PluginType>
+              <Settings>
+                <CommandSettingModel>
+                  <Name>BackupDirectory</Name>
+                  <Value>D:\MSSQL\BACKUP\</Value>
+                </CommandSettingModel>
+              </Settings>
+            </CommandModel>
+            <CommandModel>
               <PluginType>InitDatabase</PluginType>
               <Settings>
               </Settings>
@@ -50,6 +59,10 @@
             <CommandModel>
               <PluginType>BuildScript</PluginType>
               <Settings>
+                <CommandSettingModel>
+                  <Name>ActualScriptFileName</Name>
+                  <Value>log/NotAppliedScripts.txt</Value>
+                </CommandSettingModel>
               </Settings>
             </CommandModel>
             <CommandModel>

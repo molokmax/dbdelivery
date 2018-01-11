@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplyScriptCommandTest.cs" />
+    <Compile Include="BackupCommandUnitTest.cs" />
     <Compile Include="CommandInvokeUnitTest.cs" />
     <Compile Include="ConfigUnitTest.cs" />
     <Compile Include="EngineUnitTest.cs" />
@@ -70,6 +71,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BackupPlugin\BackupPlugin.csproj">
+      <Project>{FAB03B97-B6D6-44C9-A5CB-2EA2048ADAEC}</Project>
+      <Name>BackupPlugin</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DbDelivery.Core\DbDelivery.Core.csproj">
       <Project>{49f468f2-e16e-4ef8-97f3-d7660d981726}</Project>
       <Name>DbDelivery.Core</Name>

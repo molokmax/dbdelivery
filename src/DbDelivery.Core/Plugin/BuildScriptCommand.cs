@@ -26,13 +26,34 @@ namespace DbDelivery.Core.Plugin {
             FileInfo[] files = GetScriptFiles();
             // get list of not applied scripts
             ISet<string> appliedScriptNames = new HashSet<string>(appliedScripts.Select(s => s.ScriptName));
-            IEnumerable<string> notAppliedScripts = files
+            List<string> notAppliedScripts = files
                 .Where(f => !appliedScriptNames.Contains(f.Name))
                 .Select(f => f.FullName)
-                .OrderBy(f => f);
+                .OrderBy(f => f)
+                .ToList();
             // save list of not applied scripts to use it in other command
-            Data.SetValue<List<string>>("ScriptsToApply", notAppliedScripts.ToList());
+            Data.SetValue<List<string>>("ScriptsToApply", notAppliedScripts);
+            string actualScript = this.Settings.Get("ActualScriptFileName", null);
+            if (!String.IsNullOrEmpty(actualScript)) {
+                BuildActualScript(actualScript, notAppliedScripts);
+            }
             return true;
+        }
+
+        private void BuildActualScript(string actualScript, IList<string> notAppliedScripts) {
+            string path = this.Settings.Get("TempScriptDirectory");
+            string actualScriptFile = Path.Combine(path, actualScript);
+            string actualScriptPath = Path.GetDirectoryName(actualScriptFile);
+            if (!Directory.Exists(actualScriptPath)) {
+                Directory.CreateDirectory(actualScriptPath);
+            }
+            File.WriteAllText(actualScriptFile, "-- Not Applied Scripts:" + Environment.NewLine);
+            File.AppendAllText(actualScriptFile, "-- " + String.Join(Environment.NewLine + "-- ", notAppliedScripts) + Environment.NewLine + Environment.NewLine);
+            foreach (string item in notAppliedScripts) {
+                File.AppendAllText(actualScriptFile, Environment.NewLine + Environment.NewLine + Environment.NewLine + "-- " + item + Environment.NewLine + Environment.NewLine);
+                string content = File.ReadAllText(item);
+                File.AppendAllText(actualScriptFile, content);
+            }
         }
 
         private FileInfo[] GetScriptFiles() {
