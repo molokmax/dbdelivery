@@ -30,10 +30,13 @@ namespace DbDelivery.Core.Plugin {
                             cmd.Transaction = transaction;
                             List<string> historyScript = new List<string>();
                             foreach (string scriptPath in scripts) {
-                                string commandText = File.ReadAllText(scriptPath);
-                                cmd.CommandText = commandText;
-                                cmd.ExecuteNonQuery();
-
+                                try {
+                                    string commandText = File.ReadAllText(scriptPath);
+                                    cmd.CommandText = commandText;
+                                    cmd.ExecuteNonQuery();
+                                } catch (Exception e) {
+                                    throw new ApplicationException(String.Format("Error has occurred in '{0}' script. {1}", Path.GetFileName(scriptPath), e.Message), e);
+                                }
                                 string historyCmd = String.Format("(N'{0}', '{1:yyyy-MM-dd HH:mm:ss}')", GetScriptName(scriptPath), DateTime.Now);
                                 historyScript.Add(historyCmd);
                             }
