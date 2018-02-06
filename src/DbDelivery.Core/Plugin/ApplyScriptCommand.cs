@@ -30,12 +30,18 @@ namespace DbDelivery.Core.Plugin {
                             cmd.Transaction = transaction;
                             List<string> historyScript = new List<string>();
                             foreach (string scriptPath in scripts) {
+                                int scriptPartIndex = 0;
+                                int scriptPartCount = 0;
                                 try {
                                     string commandText = File.ReadAllText(scriptPath);
-                                    cmd.CommandText = commandText;
-                                    cmd.ExecuteNonQuery();
+                                    string[] scriptParts = SplitScript(commandText);
+                                    scriptPartCount = scriptParts.Length;
+                                    for (scriptPartIndex = 0; scriptPartIndex < scriptParts.Length; scriptPartIndex++) {
+                                        cmd.CommandText = scriptParts[scriptPartIndex];
+                                        cmd.ExecuteNonQuery();
+                                    }
                                 } catch (Exception e) {
-                                    throw new ApplicationException(String.Format("Error has occurred in '{0}' script. {1}", Path.GetFileName(scriptPath), e.Message), e);
+                                    throw new ApplicationException(String.Format("Error has occurred in '{0}' (part {2}/{3}) script. {1}", Path.GetFileName(scriptPath), e.Message, scriptPartIndex, scriptPartCount), e);
                                 }
                                 string historyCmd = String.Format("(N'{0}', '{1:yyyy-MM-dd HH:mm:ss}')", GetScriptName(scriptPath), DateTime.Now);
                                 historyScript.Add(historyCmd);
@@ -55,6 +61,19 @@ namespace DbDelivery.Core.Plugin {
             }
 
             return true;
+        }
+
+        private string[] SplitScript(string source) {
+            string sep1 = Environment.NewLine + "GO" + Environment.NewLine;
+            string sep2 = Environment.NewLine + "GO;" + Environment.NewLine;
+            string sep3 = Environment.NewLine + "go" + Environment.NewLine;
+            string sep4 = Environment.NewLine + "go;" + Environment.NewLine;
+            string sep5 = Environment.NewLine + "Go" + Environment.NewLine;
+            string sep6 = Environment.NewLine + "Go;" + Environment.NewLine;
+            string sep7 = Environment.NewLine + "gO" + Environment.NewLine;
+            string sep8 = Environment.NewLine + "gO;" + Environment.NewLine;
+            string[] separators = new string[] { sep1, sep2, sep3, sep4, sep5, sep6, sep7, sep8 };
+            return source.Split(separators, StringSplitOptions.RemoveEmptyEntries);
         }
 
         private string GetScriptName(string filePath) {
