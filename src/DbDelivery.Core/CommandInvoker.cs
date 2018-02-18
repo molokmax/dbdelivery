@@ -54,12 +54,15 @@ namespace DbDelivery.Core {
         /// </summary>
         /// <param name="chain"></param>
         protected virtual void ExecuteChain(IEnumerable<IPluginCommand> chain) {
-            // TODO
             foreach (IPluginCommand cmd in chain) {
-                bool result = cmd.Execute();
-                if (!result) {
-                    throw new ApplicationException(String.Format("Error has occurred in '{0}' command. {1}", cmd.PluginType, cmd.Message));
-                    //break;
+                try {
+                    bool result = cmd.Execute();
+                    if (!result) {
+                        throw new ApplicationException(String.Format("Error has occurred in '{0}' command. {1}", cmd.PluginType, cmd.Message));
+                    }
+                } catch (Exception e) {
+                    // TODO write to log
+                    throw new ApplicationException(String.Format("Error has occurred in '{0}' command. {1}", cmd.PluginType, e.Message), e);
                 }
             }
         }

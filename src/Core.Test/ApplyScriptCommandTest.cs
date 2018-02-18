@@ -12,7 +12,8 @@ namespace Core.Test {
     [TestClass]
     public class ApplyScriptCommandTest {
 
-        private const string ConnectionString = "Data Source=127.0.0.1,1401;Initial Catalog=DbDelivery_Test;Persist Security Info=True;User ID=sa;Password=Password123!#*";
+        private const string ConnectionString = "Data Source=192.168.10.33;Initial Catalog=DbDelivery_Test;Persist Security Info=True;User ID=userdb;Password=qwerty1";
+        //private const string ConnectionString = "Data Source=127.0.0.1,1401;Initial Catalog=DbDelivery_Test;Persist Security Info=True;User ID=sa;Password=Password123!#*";
 
         private const string ProviderName = "System.Data.SqlClient";
 

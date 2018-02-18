@@ -36,7 +36,8 @@ namespace DbDelivery.Core {
             if (Directory.Exists(pluginFolder)) {
                 IEnumerable<string> pluginFiles = Directory.EnumerateFiles(pluginFolder, "*.dll", SearchOption.TopDirectoryOnly);
                 foreach (string item in pluginFiles) {
-                    Assembly.LoadFile(item);
+                    FileInfo file = new FileInfo(item);
+                    Assembly.LoadFile(file.FullName);
                 }
             }
             // get all IPluginCommand implementations and register them
