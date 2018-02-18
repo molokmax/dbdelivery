@@ -26,7 +26,7 @@ namespace DbDelivery.Core.Plugin {
                     if (!File.Exists(initScriptPath)) {
                         throw new ApplicationException(String.Format("Init script '{0}' is not found", initScriptPath));
                     }
-                    string initScript = File.ReadAllText(initScriptPath);
+                    string initScript = File.ReadAllText(initScriptPath, Encoding.UTF8);
                     cmd.CommandText = String.Format(initScript, GetMigrationTableName());
                     cmd.ExecuteNonQuery();
                 }

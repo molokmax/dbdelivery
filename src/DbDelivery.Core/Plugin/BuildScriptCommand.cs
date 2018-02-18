@@ -54,7 +54,7 @@ namespace DbDelivery.Core.Plugin {
                     if (!File.Exists(scriptPath)) {
                         throw new ApplicationException(String.Format("Get Applied script '{0}' is not found", scriptPath));
                     }
-                    string script = File.ReadAllText(scriptPath);
+                    string script = File.ReadAllText(scriptPath, Encoding.UTF8);
                     cmd.CommandText = String.Format(script, GetMigrationTableName());
                     using (DbDataReader reader = cmd.ExecuteReader()) {
                         List<MigrationScriptModel> result = new List<MigrationScriptModel>();

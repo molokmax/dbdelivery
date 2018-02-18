@@ -13,7 +13,7 @@ namespace DbDeliveryCmd {
             try {
                 if (args == null || args.Length < 2) {
                     // Print usage
-                    Console.WriteLine("Usage: dbDelivery ApplicationName EnvironmentName");
+                    Console.WriteLine("Usage: DbDeliveryCmd ApplicationName EnvironmentName");
                 } else {
                     // get parameters application and environment
                     string applicationName = args[0];

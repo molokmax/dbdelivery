@@ -27,10 +27,12 @@ namespace DbDelivery.Core.Plugin {
                     DbTransaction transaction = connection.BeginTransaction();
                     try {
                         using (DbCommand cmd = connection.CreateCommand()) {
+
+                            Encoding encoding = Encoding.GetEncoding();
                             cmd.Transaction = transaction;
                             List<string> historyScript = new List<string>();
                             foreach (string scriptPath in scripts) {
-                                string commandText = File.ReadAllText(scriptPath);
+                                string commandText = File.ReadAllText(scriptPath, encoding);
                                 cmd.CommandText = commandText;
                                 cmd.ExecuteNonQuery();
 

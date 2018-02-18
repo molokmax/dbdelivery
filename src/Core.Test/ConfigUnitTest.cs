@@ -164,6 +164,26 @@ namespace Core.Test {
             Assert.IsFalse(String.IsNullOrEmpty(connString.Value));
         }
 
+
+        [TestMethod]
+        public void GetEnvironmentWrongCaseConfigFile() {
+            ConfigModel config = GetTestConfigModel();
+            ConfigManager configManager = new ConfigManager();
+            EnvironmentModel env = configManager.GetEnvironmentConfig(config, "DBDelivery", "teSt");
+
+            Assert.AreEqual("test", env.Name);
+            Assert.AreEqual(1, env.Commands.Count);
+            CommandModel cmd = env.Commands.First();
+            Assert.AreEqual("InitDatabase", cmd.PluginType);
+            Assert.AreEqual(2, cmd.Settings.Count);
+            CommandSettingModel providerName = cmd.Settings.FirstOrDefault(c => c.Name == "ProviderName");
+            Assert.IsNotNull(providerName);
+            Assert.IsFalse(String.IsNullOrEmpty(providerName.Value));
+            CommandSettingModel connString = cmd.Settings.FirstOrDefault(c => c.Name == "ConnectionString");
+            Assert.IsNotNull(connString);
+            Assert.IsFalse(String.IsNullOrEmpty(connString.Value));
+        }
+
         [TestMethod]
         public void SettingStoreBaseSetting() {
             CommandModel cmdConfig;
