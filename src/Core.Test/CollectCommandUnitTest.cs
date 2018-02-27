@@ -62,6 +62,12 @@ namespace Core.Test {
         #endregion
 
         [TestMethod]
+        public void PathCombineTest() {
+            string result = Path.Combine(@"C:\Windows\Test", "");
+            Assert.AreEqual(@"C:\Windows\Test", result);
+        }
+
+        [TestMethod]
         public void CollectScripts() {
             CommandModel config = new CommandModel();
             config.PluginType = "CollectScripts";
