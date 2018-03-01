@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{4D37
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackupPlugin", "BackupPlugin\BackupPlugin.csproj", "{FAB03B97-B6D6-44C9-A5CB-2EA2048ADAEC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParseConfigPlugin", "ParseConfigPlugin\ParseConfigPlugin.csproj", "{E3179B43-FDF4-4E54-8F6B-D40133E40537}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,10 @@ Global
 		{FAB03B97-B6D6-44C9-A5CB-2EA2048ADAEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FAB03B97-B6D6-44C9-A5CB-2EA2048ADAEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FAB03B97-B6D6-44C9-A5CB-2EA2048ADAEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3179B43-FDF4-4E54-8F6B-D40133E40537}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3179B43-FDF4-4E54-8F6B-D40133E40537}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3179B43-FDF4-4E54-8F6B-D40133E40537}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3179B43-FDF4-4E54-8F6B-D40133E40537}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -50,5 +56,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{C58E08F9-049E-4622-864C-8E6AA27EF759} = {50794E21-E02A-40C6-B96A-629C6D6E4EA3}
 		{FAB03B97-B6D6-44C9-A5CB-2EA2048ADAEC} = {4D37C410-F7AD-42C2-AB6E-BCFA5BAE0D47}
+		{E3179B43-FDF4-4E54-8F6B-D40133E40537} = {4D37C410-F7AD-42C2-AB6E-BCFA5BAE0D47}
 	EndGlobalSection
 EndGlobal

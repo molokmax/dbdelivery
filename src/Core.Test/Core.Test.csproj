@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplyScriptCommandTest.cs" />
+    <Compile Include="ParseConfigCommandUnitTest.cs" />
     <Compile Include="BackupCommandUnitTest.cs" />
     <Compile Include="CommandInvokeUnitTest.cs" />
     <Compile Include="ConfigUnitTest.cs" />
@@ -68,6 +69,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="infrastructure.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -82,6 +87,10 @@
     <ProjectReference Include="..\DbDelivery.Plugin\DbDelivery.Plugin.csproj">
       <Project>{6d334fc7-ccfe-4977-8f2f-9b932f0d8fe2}</Project>
       <Name>DbDelivery.Plugin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ParseConfigPlugin\ParseConfigPlugin.csproj">
+      <Project>{e3179b43-fdf4-4e54-8f6b-d40133e40537}</Project>
+      <Name>ParseConfigPlugin</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

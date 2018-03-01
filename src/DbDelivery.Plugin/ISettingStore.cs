@@ -10,7 +10,7 @@ namespace DbDelivery.Plugin {
     /// Interface of settings storage for command
     /// </summary>
     public interface ISettingStore {
-
+        
         /// <summary>
         /// Get setting value by name
         /// throw exception if key nod found
