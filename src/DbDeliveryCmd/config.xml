@@ -1,74 +1,38 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ConfigModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Applications>
-    <ApplicationModel>
-      <Name>DbDelivery</Name>
+    <ApplicationModel name="DbDelivery">
       <Environments>
-        <EnvironmentModel>
-          <Name>test</Name>
+        <EnvironmentModel name="test">
           <BaseSettings>
-            <CommandSettingModel>
-              <Name>ProviderName</Name>
-              <Value>System.Data.SqlClient</Value>
-            </CommandSettingModel>
-            <CommandSettingModel>
-              <Name>ConnectionString</Name>
-              <Value>Data Source=127.0.0.1,1401;Initial Catalog=DbDelivery_Test;Persist Security Info=True;User ID=sa;Password=Password123!#*</Value>
-            </CommandSettingModel>
-            <CommandSettingModel>
-              <Name>TablePrefix</Name>
-              <Value></Value>
-            </CommandSettingModel>
-            <CommandSettingModel>
-              <Name>TempScriptDirectory</Name>
-              <Value>ScriptCollect</Value>
-            </CommandSettingModel>
+            <CommandSettingModel name="ProviderName" value="System.Data.SqlClient" />
+            <CommandSettingModel name="ConnectionString" value="Data Source=127.0.0.1,1401;Initial Catalog=DbDelivery_Test;Persist Security Info=True;User ID=sa;Password=Password123!#*" />
+            <CommandSettingModel name="TablePrefix" value="" />
+            <CommandSettingModel name="TempScriptDirectory" value="ScriptCollect" />
           </BaseSettings>
           <Commands>
-            <CommandModel>
-              <PluginType>MakeBackup</PluginType>
+            <CommandModel pluginType="MakeBackup">
               <Settings>
-                <CommandSettingModel>
-                  <Name>BackupDirectory</Name>
-                  <Value>D:\MSSQL\BACKUP\</Value>
-                </CommandSettingModel>
+                <CommandSettingModel name="BackupDirectory" value="D:\MSSQL\BACKUP\" />
               </Settings>
             </CommandModel>
-            <CommandModel>
-              <PluginType>InitDatabase</PluginType>
+            <CommandModel pluginType="InitDatabase">
+              <Settings />
+            </CommandModel>
+            <CommandModel pluginType="CollectScripts">
               <Settings>
+                <CommandSettingModel name="RootDirectory" value="./src" />
+                <CommandSettingModel name="LeafDirectory" value="" />
+                <CommandSettingModel name="SourceDirectories" value="init" />
               </Settings>
             </CommandModel>
-            <CommandModel>
-              <PluginType>CollectScripts</PluginType>
+            <CommandModel pluginType="BuildScript">
               <Settings>
-                <CommandSettingModel>
-                  <Name>RootDirectory</Name>
-                  <Value>./src</Value>
-                </CommandSettingModel>
-                <CommandSettingModel>
-                  <Name>LeafDirectory</Name>
-                  <Value></Value>
-                </CommandSettingModel>
-                <CommandSettingModel>
-                  <Name>SourceDirectories</Name>
-                  <Value>init</Value>
-                </CommandSettingModel>
+                <CommandSettingModel name="ActualScriptFileName" value="log/NotAppliedScripts.txt" />
               </Settings>
             </CommandModel>
-            <CommandModel>
-              <PluginType>BuildScript</PluginType>
-              <Settings>
-                <CommandSettingModel>
-                  <Name>ActualScriptFileName</Name>
-                  <Value>log/NotAppliedScripts.txt</Value>
-                </CommandSettingModel>
-              </Settings>
-            </CommandModel>
-            <CommandModel>
-              <PluginType>ApplyScript</PluginType>
-              <Settings>
-              </Settings>
+            <CommandModel pluginType="ApplyScript">
+              <Settings />
             </CommandModel>
           </Commands>
         </EnvironmentModel>

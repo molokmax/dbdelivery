@@ -25,7 +25,7 @@ namespace DbDelivery.Core.Config {
         /// Save configuration
         /// </summary>
         /// <param name="config"></param>
-        public void Save(ConfigModel config) {
+        public void Save(ConfigModel config) { 
             string configFile = GetSettingByName("ConfigFileName");
             using (FileStream file = new FileStream(configFile, FileMode.Create, FileAccess.Write)) {
                 using (XmlWriter writer = XmlWriter.Create(file)) {

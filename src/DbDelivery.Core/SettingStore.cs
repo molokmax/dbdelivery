@@ -14,7 +14,7 @@ namespace DbDelivery.Core {
     public class SettingStore : ISettingStore {
 
         private IDictionary<string, string> store = new Dictionary<string, string>();
-
+        
         /// <summary>
         /// Create storage from config
         /// </summary>

@@ -30,10 +30,18 @@ namespace DbDelivery.Plugin {
         }
 
         protected string GetProviderName() {
-            return this.Settings.Get("ProviderName");
+            string result = this.Settings.Get("ProviderName", null);
+            if (String.IsNullOrEmpty(result)) {
+                result = this.Data.GetValue<string>("ProviderName");
+            }
+            return result;
         }
         protected string GetConnectionString() {
-            return this.Settings.Get("ConnectionString");
+            string result = this.Settings.Get("ConnectionString", null);
+            if (String.IsNullOrEmpty(result)) {
+                result = this.Data.GetValue<string>("ConnectionString");
+            }
+            return result;
         }
         protected string GetTablePrefix() {
             string tablePrefix = this.Settings.Get("TablePrefix", null);

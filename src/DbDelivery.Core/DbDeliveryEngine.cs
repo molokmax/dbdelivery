@@ -31,6 +31,8 @@ namespace DbDelivery.Core {
         /// Register plugins
         /// </summary>
         public void Init() {
+            Environment.CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
+
             // looking for plugin directory and loading plugin command classes
             string pluginFolder = this.ConfigManager.GetSettingByName("PluginFolder", "Plugins");
             if (Directory.Exists(pluginFolder)) {

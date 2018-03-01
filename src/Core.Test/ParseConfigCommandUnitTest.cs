@@ -1,29 +1,18 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DbDelivery.Plugin;
-using DbDelivery.Core.Plugin;
 using DbDelivery.Core.Config;
 using DbDelivery.Core;
-using System.IO;
-using System.Linq;
-using BackupPlugin;
+using ParseConfigPlugin;
 
 namespace Core.Test {
     /// <summary>
-    /// Summary description for BackupCommandUnitTest
+    /// Summary description for ParseConfigCommandUnitTest
     /// </summary>
     [TestClass]
-    public class BackupCommandUnitTest {
-
-        private const string ConnectionString = "Data Source=192.168.10.33;Initial Catalog=DbDelivery_Test;Persist Security Info=True;User ID=userdb;Password=qwerty1";
-        //private const string ConnectionString = "Data Source=127.0.0.1,1401;Initial Catalog=DbDelivery_Test;Persist Security Info=True;User ID=sa;Password=Password123!#*";
-
-        private const string ProviderName = "System.Data.SqlClient";
-
-
-        public BackupCommandUnitTest() {
+    public class ParseConfigCommandUnitTest {
+        
+        public ParseConfigCommandUnitTest() {
             //
             // TODO: Add constructor logic here
             //
@@ -70,46 +59,27 @@ namespace Core.Test {
         #endregion
 
         [TestMethod]
-        public void CollectScripts() {
-
-            //if (Directory.Exists("./backup")) {
-            //    IEnumerable<string> oldFiles = Directory.GetFiles("./backup", "backup*.bak");
-            //    foreach (string item in oldFiles) {
-            //        File.Delete(item);
-            //    }
-            //}
+        public void ParseConfig() {
 
             CommandModel config = new CommandModel();
-            config.PluginType = "MakeBackup";
+            config.PluginType = "ParseConfig";
             config.Settings = new List<CommandSettingModel>() {
                 new CommandSettingModel() {
-                    Name = "BackupDirectory",
-                    Value = @"D:\MSSQL\BACKUP\"
+                    Name = "ConfigPath",
+                    Value = @"./infrastructure.config"
                 },
                 new CommandSettingModel() {
-                    Name = "BackupFileName",
-                    Value = "backup_#TIMESTAMP#.bak"
-                },
-                new CommandSettingModel() {
-                    Name = "ProviderName",
-                    Value = ProviderName
-                },
-                new CommandSettingModel() {
-                    Name = "ConnectionString",
-                    Value = ConnectionString
-                },
-                new CommandSettingModel() {
-                    Name = "TablePrefix",
-                    Value = "TEST_BUILD"
+                    Name = "ConnectionStringName",
+                    Value = "DatabaseConnection"
                 }
             };
+            IDataStore data = new DataStore();
             ISettingStore settings = new SettingStore(config, null);
-            IPluginCommand cmd = new MakeBackupCommand(settings, null);
+            IPluginCommand cmd = new ParseConfigCommand(settings, data);
             bool res = cmd.Execute();
             Assert.IsTrue(res);
-
-            //IEnumerable<string> files = Directory.GetFiles("./backup", "backup*.bak");
-            //Assert.IsTrue(files.Any());
+            Assert.AreEqual("Data Source=127.0.0.1;Initial Catalog=TestDB;Persist Security Info=True;User ID=user;Password=pass", data.GetValue("ConnectionString", ""));
+            Assert.AreEqual("System.Data.SqlClient", data.GetValue("ProviderName", ""));
             
         }
     }

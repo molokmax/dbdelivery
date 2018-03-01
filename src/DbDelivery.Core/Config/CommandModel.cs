@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace DbDelivery.Core.Config {
 
@@ -14,6 +15,7 @@ namespace DbDelivery.Core.Config {
         /// <summary>
         /// Plugin name
         /// </summary>
+        [XmlAttribute("pluginType")]
         public string PluginType { get; set; }
 
         /// <summary>
