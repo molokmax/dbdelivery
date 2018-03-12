@@ -66,16 +66,54 @@ namespace DbDelivery.Core.Plugin {
         }
 
         private string[] SplitScript(string source) {
-            string sep1 = Environment.NewLine + "GO" + Environment.NewLine;
-            string sep2 = Environment.NewLine + "GO;" + Environment.NewLine;
-            string sep3 = Environment.NewLine + "go" + Environment.NewLine;
-            string sep4 = Environment.NewLine + "go;" + Environment.NewLine;
-            string sep5 = Environment.NewLine + "Go" + Environment.NewLine;
-            string sep6 = Environment.NewLine + "Go;" + Environment.NewLine;
-            string sep7 = Environment.NewLine + "gO" + Environment.NewLine;
-            string sep8 = Environment.NewLine + "gO;" + Environment.NewLine;
-            string[] separators = new string[] { sep1, sep2, sep3, sep4, sep5, sep6, sep7, sep8 };
-            return source.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+            IList<string> separators = new List<string>();
+
+            separators.Add("\r\nGO\r\n");
+            separators.Add("\r\nGO;\r\n");
+            separators.Add("\r\ngo\r\n");
+            separators.Add("\r\ngo;\r\n");
+            separators.Add("\r\nGo\r\n");
+            separators.Add("\r\nGo;\r\n");
+            separators.Add("\r\ngO\r\n");
+            separators.Add("\r\ngO;\r\n");
+
+            separators.Add("\rGO\r");
+            separators.Add("\rGO;\r");
+            separators.Add("\rgo\r");
+            separators.Add("\rgo;\r");
+            separators.Add("\rGo\r");
+            separators.Add("\rGo;\r");
+            separators.Add("\rgO\r");
+            separators.Add("\rgO;\r");
+
+            separators.Add("\nGO\n");
+            separators.Add("\nGO;\n");
+            separators.Add("\ngo\n");
+            separators.Add("\ngo;\n");
+            separators.Add("\nGo\n");
+            separators.Add("\nGo;\n");
+            separators.Add("\ngO\n");
+            separators.Add("\ngO;\n");
+
+            separators.Add("\rGO\n");
+            separators.Add("\rGO;\n");
+            separators.Add("\rgo\n");
+            separators.Add("\rgo;\n");
+            separators.Add("\rGo\n");
+            separators.Add("\rGo;\n");
+            separators.Add("\rgO\n");
+            separators.Add("\rgO;\n");
+
+            separators.Add("\nGO\r");
+            separators.Add("\nGO;\r");
+            separators.Add("\ngo\r");
+            separators.Add("\ngo;\r");
+            separators.Add("\nGo\r");
+            separators.Add("\nGo;\r");
+            separators.Add("\ngO\r");
+            separators.Add("\ngO;\r");
+
+            return source.Split(separators.ToArray(), StringSplitOptions.RemoveEmptyEntries);
         }
 
         private string GetScriptName(string filePath) {
