@@ -9,11 +9,13 @@
             <CommandSettingModel name="ConnectionString" value="Data Source=127.0.0.1,1401;Initial Catalog=DbDelivery_Test;Persist Security Info=True;User ID=sa;Password=Password123!#*" />
             <CommandSettingModel name="TablePrefix" value="" />
             <CommandSettingModel name="TempScriptDirectory" value="ScriptCollect" />
+            <!--<CommandSettingModel name="CommandTimeout" value="60" />-->
           </BaseSettings>
           <Commands>
             <CommandModel pluginType="MakeBackup">
               <Settings>
                 <CommandSettingModel name="BackupDirectory" value="D:\MSSQL\BACKUP\" />
+                <CommandSettingModel name="CommandTimeout" value="120" />
               </Settings>
             </CommandModel>
             <CommandModel pluginType="InitDatabase">

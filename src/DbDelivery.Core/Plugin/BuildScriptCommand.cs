@@ -91,6 +91,7 @@ namespace DbDelivery.Core.Plugin {
         private List<MigrationScriptModel> GetAppliedScripts(Encoding encoding) {
             using (DbConnection connection = GetConnection()) {
                 using (DbCommand cmd = connection.CreateCommand()) {
+                    cmd.CommandTimeout = GetCommandTimeout();
                     const string scriptFileName = "getapplied.sql";
                     string scriptPath = Path.Combine("SqlCommandResources", scriptFileName);
                     if (!File.Exists(scriptPath)) {

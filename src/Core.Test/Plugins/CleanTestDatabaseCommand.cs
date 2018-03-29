@@ -17,6 +17,7 @@ namespace Core.Test {
         public override bool Execute() {
             using (DbConnection connection = GetConnection()) {
                 using (DbCommand cmd = connection.CreateCommand()) {
+                    cmd.CommandTimeout = GetCommandTimeout();
                     string commandText = "BEGIN " + Environment.NewLine +
                         "DECLARE @sql NVARCHAR(max) = '' " + Environment.NewLine +
                         "SELECT @sql += ' Drop table ' + QUOTENAME(TABLE_SCHEMA) + '.' + QUOTENAME(TABLE_NAME) + '; ' " + Environment.NewLine +

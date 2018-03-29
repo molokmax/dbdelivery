@@ -18,6 +18,7 @@ namespace Core.Test {
         public override bool Execute() {
             using (DbConnection connection = GetConnection()) {
                 using (DbCommand cmd = connection.CreateCommand()) {
+                    cmd.CommandTimeout = GetCommandTimeout();
                     const string initScriptFileName = "initialize.sql";
                     string initScriptPath = Path.Combine("SqlCommandResources", initScriptFileName);
                     if (!File.Exists(initScriptPath)) {
@@ -28,11 +29,13 @@ namespace Core.Test {
                     cmd.ExecuteNonQuery();
                 }
                 using (DbCommand cmd = connection.CreateCommand()) {
+                    cmd.CommandTimeout = GetCommandTimeout();
                     cmd.CommandText = String.Format("delete from {0}", GetMigrationTableName());
                     cmd.ExecuteNonQuery();
                 }
                 if (this.Settings.Get("FillHistory") == "YES") {
                     using (DbCommand cmd = connection.CreateCommand()) {
+                        cmd.CommandTimeout = GetCommandTimeout();
                         StringBuilder commandText = new StringBuilder();
                         commandText.AppendFormat("insert into {0} (SCRIPT_NAME, APPLY_DATE) VALUES ('script1.sql', '2017-12-30 11:35:12')" + Environment.NewLine, GetMigrationTableName());
                         commandText.AppendFormat("insert into {0} (SCRIPT_NAME, APPLY_DATE) VALUES ('script0.sql', '2018-01-01 18:24')" + Environment.NewLine, GetMigrationTableName());

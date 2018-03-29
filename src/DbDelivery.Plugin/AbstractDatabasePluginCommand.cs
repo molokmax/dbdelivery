@@ -47,5 +47,9 @@ namespace DbDelivery.Plugin {
             string tablePrefix = this.Settings.Get("TablePrefix", null);
             return String.IsNullOrEmpty(tablePrefix) ? null : tablePrefix + "_";
         }
+        protected int GetCommandTimeout() {
+            string commandTimeout = this.Settings.Get("CommandTimeout", "60");
+            return Int32.Parse(commandTimeout);
+        }
     }
 }

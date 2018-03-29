@@ -21,6 +21,7 @@ namespace DbDelivery.Core.Plugin {
         public override bool Execute() {
             using (DbConnection connection = GetConnection()) {
                 using (DbCommand cmd = connection.CreateCommand()) {
+                    cmd.CommandTimeout = GetCommandTimeout();
                     const string initScriptFileName = "initialize.sql";
                     string initScriptPath = Path.Combine("SqlCommandResources", initScriptFileName);
                     if (!File.Exists(initScriptPath)) {

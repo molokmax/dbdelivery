@@ -27,6 +27,7 @@ namespace DbDelivery.Core.Plugin {
                     DbTransaction transaction = connection.BeginTransaction();
                     try {
                         using (DbCommand cmd = connection.CreateCommand()) {
+                            cmd.CommandTimeout = GetCommandTimeout();
                             string encName = this.Settings.Get("Encoding", "utf-8");
                             Encoding encoding = Encoding.GetEncoding(encName);
                             cmd.Transaction = transaction;
