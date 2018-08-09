@@ -36,7 +36,7 @@ namespace DbDelivery.Core.Plugin {
                                 int scriptPartIndex = 0;
                                 int scriptPartCount = 0;
                                 try {
-                                    string commandText = File.ReadAllText(scriptPath, encoding);
+                                    string commandText = File.ReadAllText(scriptPath, encoding) + Environment.NewLine;
                                     string[] scriptParts = SplitScript(commandText);
                                     scriptPartCount = scriptParts.Length;
                                     for (scriptPartIndex = 0; scriptPartIndex < scriptParts.Length; scriptPartIndex++) {
